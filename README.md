@@ -27,8 +27,8 @@ Sistema de subastas virtual desarrollado con Flask y MySQL.
 - CSS
 - GitHub
 
-## Autor
+## Autores
 
-Jazmany Manzano Lezama,
-Ivan Cocoletzi Saavedra,
-Brayan Vasquez Delgado
+-Jazmany Manzano Lezama,
+-Ivan Cocoletzi Saavedra,
+-Brayan Vasquez Delgado
