@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="container">
+
+  {% if error == "ofertas" %}
+  <div class="mensaje-error">
+      ❌ No puedes eliminar una subasta porque ya tiene ofertas registradas.
+  </div>
+  {% endif %}
+
+  <section class="catalog-header">
+    <div>
+      <h2>Catálogo de Subastas</h2>
+      <p>Subastas cargadas desde MySQL.</p>
+    </div>
+  </section>
+
+  <section class="auction-grid">
+    {% for s in subastas %}
+    <article class="auction-card">
+
+      {% if s.imagen %}
+      <img class="auction-img"
+           src="{{ url_for('static', filename='img/' + s.imagen) }}"
+           alt="{{ s.titulo }}">
+      {% endif %}
+
+      <h3>{{ s.titulo }}</h3>
+      <p>{{ s.descripcion }}</p>
+      <p>Categoría: {{ s.categoria }}</p>
+      <p class="price">${{ s.precio_actual }}</p>
+
+      <p class="timer-box">
+        Finaliza en:
+        <span class="timer" data-fecha="{{ s.fecha_fin }}"></span>
+      </p>
+
+      <a class="btn" href="/subasta/{{ s.id_subasta }}">
+        Entrar a subasta
+      </a>
+
+      {% if session.get("id_usuario") and session.get("rol") != "admin" %}
+<a class="btn secondary" href="/agregar_carrito/{{ s.id_subasta }}">
+  Seguir subasta
+</a>
+{% endif %}
+
+
+      {% if session.get("id_usuario") %}
+
+    {% if session.get("rol") == "admin" %}
+
+        <a class="btn secondary"
+           href="#"
+           onclick="mostrarModal('/eliminar_subasta/{{ s.id_subasta }}'); return false;">
+            Eliminar
+        </a>
+
+    {% elif session.get("id_usuario") == s.creador_id %}
+
+        {% if s.total_ofertas == 0 %}
+            <a class="btn secondary"
+               href="#"
+               onclick="mostrarModal('/eliminar_subasta/{{ s.id_subasta }}'); return false;">
+                Eliminar
+            </a>
+        {% else %}
+            <span class="subasta-bloqueada">
+                Tiene ofertas
+            </span>
+        {% endif %}
+
+    {% endif %}
+
+{% endif %}
+
+    </article>
+    {% endfor %}
+  </section>
+
+  <div id="modalEliminar" class="modal">
+    <div class="modal-content">
+      <h3>Eliminar subasta</h3>
+      <p>¿Seguro que deseas eliminar esta subasta?</p>
+
+      <div class="modal-actions">
+        <button class="btn secondary" onclick="cerrarModal()">
+          Cancelar
+        </button>
+
+        <a id="btnConfirmarEliminar" class="btn">
+          Eliminar
+        </a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const timers = document.querySelectorAll(".timer");
+
+timers.forEach(timer => {
+    function actualizarTimer() {
+        const fechaFin = new Date(timer.dataset.fecha).getTime();
+        const ahora = new Date().getTime();
+        const diferencia = fechaFin - ahora;
+
+        if (diferencia <= 0) {
+            timer.textContent = "Subasta finalizada";
+            return;
+        }
+
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+        const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+        const segundos = Math.floor((diferencia / 1000) % 60);
+
+        timer.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+    }
+
+    actualizarTimer();
+    setInterval(actualizarTimer, 1000);
+});
+</script>
+
+<script>
+function mostrarModal(url){
+    document.getElementById("modalEliminar").style.display = "flex";
+    document.getElementById("btnConfirmarEliminar").href = url;
+}
+
+function cerrarModal(){
+    document.getElementById("modalEliminar").style.display = "none";
+}
+</script>
+
+{% endblock %}

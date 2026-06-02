@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>NOVA VAULT</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<header class="navbar">
+  <h1>NOVA VAULT</h1>
+  <nav>
+    <a href="/">Inicio</a>
+    <a href="/catalogo">Subastas</a>
+
+  {% if session.get("id_usuario") %}
+    <a href="/seguimiento">Seguimiento</a>
+    <a href="/ganados">Ganados</a>
+    <a href="/crear_subasta">Crear Subasta</a>
+    <a href="/mis_subastas">Mis Subastas</a>
+
+    {% if session.get("rol") == "admin" %}
+        <a href="/admin">Admin</a>
+    {% endif %}
+
+    <a href="/logout">Salir</a>
+
+    {% else %}
+        <a href="/login">Login</a>
+        <a href="/registro">Registro</a>
+    {% endif %}
+  </nav>
+</header>
+
+{% block content %}{% endblock %}
+
+</body>
+</html>

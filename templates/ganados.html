@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="container">
+
+<section class="panel">
+
+<h2>Subastas Ganadas</h2>
+
+<table class="tabla-admin">
+
+<tr>
+    <th>Producto</th>
+    <th>Precio Final</th>
+    <th>Acción</th>
+</tr>
+
+{% for item in items %}
+<tr>
+    <td>{{ item.titulo }}</td>
+    <td>${{ item.precio_actual }}</td>
+    <td>
+        <a class="btn"
+           href="/pagos/{{ item.id_subasta }}">
+            Pagar
+        </a>
+    </td>
+</tr>
+{% else %}
+<tr>
+    <td colspan="3">
+        No has ganado ninguna subasta.
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+</section>
+
+</main>
+
+{% endblock %}

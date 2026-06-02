@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="auth">
+  <section class="form">
+
+    <h2>Pago de Producto</h2>
+
+    <p>Producto: <strong>{{ subasta.titulo }}</strong></p>
+    <p>Monto: <strong>${{ subasta.precio_actual }}</strong></p>
+
+    <hr><br>
+
+    <h3>Pago simulado</h3>
+
+    <form method="POST">
+      <label>Método de pago</label>
+
+      <select name="metodo_pago" required>
+        <option value="">Selecciona un método</option>
+        <option value="Tarjeta">Tarjeta de crédito/débito</option>
+        <option value="PayPal">PayPal</option>
+        <option value="Transferencia">Transferencia bancaria</option>
+        <option value="OXXO">OXXO / Efectivo</option>
+      </select>
+
+      <input type="text" name="titular" placeholder="Titular de la tarjeta o cuenta">
+      <input type="text" name="numero_tarjeta" placeholder="Número de tarjeta / referencia">
+      <input type="text" name="fecha_vencimiento" placeholder="MM/AA">
+      <input type="password" name="cvv" placeholder="CVV / Código">
+
+      <button type="submit">Pagar simulación</button>
+    </form>
+
+    <br>
+
+    <h3>Pago con Mercado Pago</h3>
+
+    <a class="btn" href="/mercadopago/{{ subasta.id_subasta }}">
+      Pagar con Mercado Pago
+    </a>
+
+    <p class="message">{{ mensaje }}</p>
+
+  </section>
+</main>
+
+{% endblock %}

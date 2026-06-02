@@ -1,0 +1,30 @@
+NOVA VAULT - Versión Python Flask
+
+1. Mantén XAMPP abierto con MySQL encendido.
+2. Importa database/nova_vault.sql en phpMyAdmin.
+3. Abre esta carpeta en VS Code.
+4. Abre una terminal dentro de la carpeta.
+5. Ejecuta:
+
+python -m venv venv
+
+6. Activa el entorno virtual:
+
+Windows:
+venv\Scripts\activate
+
+7. Instala dependencias:
+
+pip install -r requirements.txt
+
+8. Ejecuta el proyecto:
+
+python app.py
+
+9. Abre en el navegador:
+
+http://127.0.0.1:5000
+
+Usuario de prueba:
+correo: usuario@novavault.com
+contraseña: 123456

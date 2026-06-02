@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="auth">
+  <section class="form">
+    <h2>Comprobante de Pago</h2>
+
+    <p>✅ Pago procesado correctamente.</p>
+
+    <p>Producto: <strong>{{ subasta.titulo }}</strong></p>
+    <p>Monto: <strong>${{ subasta.precio_actual }}</strong></p>
+    <p>Método: <strong>{{ metodo_pago }}</strong></p>
+
+    <p>Folio: <strong>NV-{{ subasta.id_subasta }}</strong></p>
+
+    <a class="btn" href="/ganados">Volver a ganados</a>
+  </section>
+</main>
+
+{% endblock %}

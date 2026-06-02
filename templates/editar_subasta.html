@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="auth">
+
+<form class="form" method="POST">
+
+    <h2>Editar Subasta</h2>
+
+    <input
+        type="text"
+        name="titulo"
+        value="{{ subasta.titulo }}"
+        required
+    >
+
+    <textarea
+        name="descripcion"
+        rows="4"
+        required>{{ subasta.descripcion }}</textarea>
+
+    <input
+        type="text"
+        name="categoria"
+        value="{{ subasta.categoria }}"
+        required
+    >
+
+    <input
+        type="datetime-local"
+        name="fecha_fin"
+        value="{{ subasta.fecha_fin.strftime('%Y-%m-%dT%H:%M') }}"
+        required
+    >
+
+    <button type="submit">
+        Guardar cambios
+    </button>
+
+</form>
+
+</main>
+
+{% endblock %}

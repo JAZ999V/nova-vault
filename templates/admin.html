@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="container">
+
+    <section class="stats-admin">
+
+        <div class="stat-card">
+            <h4>👥 Usuarios</h4>
+            <span>{{ usuarios }}</span>
+        </div>
+
+        <div class="stat-card">
+            <h4>📦 Subastas</h4>
+            <span>{{ subastas }}</span>
+        </div>
+
+        <div class="stat-card">
+            <h4>💳 Pagos</h4>
+            <span>{{ pagos }}</span>
+        </div>
+
+    </section>
+
+    <section class="panel">
+        <h2>Usuarios registrados</h2>
+
+        <table class="tabla-admin">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+            </tr>
+
+            {% for u in lista_usuarios %}
+            <tr>
+                <td>{{ u.id_usuario }}</td>
+                <td>{{ u.nombre }}</td>
+                <td>{{ u.correo }}</td>
+                <td>{{ u.rol }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+
+    <section class="panel">
+        <h2>Subastas registradas</h2>
+
+        <table class="tabla-admin">
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+
+            {% for s in lista_subastas %}
+            <tr>
+                <td>{{ s.id_subasta }}</td>
+                <td>{{ s.titulo }}</td>
+                <td>{{ s.categoria }}</td>
+                <td>${{ s.precio_actual }}</td>
+                <td>{{ s.estado }}</td>
+                <td>
+                    <a class="btn secondary" href="/editar_subasta/{{ s.id_subasta }}">
+                        Editar
+                    </a>
+
+                    <a class="btn secondary" href="/admin_ofertas/{{ s.id_subasta }}">
+                        Pujas
+                    </a>
+
+                    <a class="btn secondary"
+   href="#"
+   onclick="abrirModalEliminar('/eliminar_subasta/{{ s.id_subasta }}'); return false;">
+    Eliminar
+</a>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+
+    <div id="modalEliminar" class="modal">
+    <div class="modal-content">
+        <h3>Eliminar subasta</h3>
+        <p>¿Seguro que deseas eliminar esta subasta?</p>
+
+        <div class="modal-actions">
+            <button class="btn secondary" onclick="cerrarModalEliminar()">
+                Cancelar
+            </button>
+
+            <a id="btnConfirmarEliminar" class="btn">
+                Eliminar
+            </a>
+        </div>
+    </div>
+</div>
+
+</main>
+
+<script>
+function abrirModalEliminar(url){
+    document.getElementById("modalEliminar").style.display = "flex";
+    document.getElementById("btnConfirmarEliminar").href = url;
+}
+
+function cerrarModalEliminar(){
+    document.getElementById("modalEliminar").style.display = "none";
+}
+</script>
+{% endblock %}

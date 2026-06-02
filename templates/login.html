@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="auth">
+    <form class="form" method="POST">
+        <h2>Iniciar sesión</h2>
+
+        <input type="email"
+               name="correo"
+               placeholder="Correo"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Contraseña"
+               required>
+
+        <button type="submit">Entrar</button>
+
+        <p class="message">{{ mensaje }}</p>
+    </form>
+</main>
+
+{% endblock %}

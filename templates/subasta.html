@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="container">
+  <section class="detail">
+   
+    <div class="product-image">
+    {% if subasta.imagen %}
+    <img class="detail-img"
+         src="{{ url_for('static', filename='img/' + subasta.imagen) }}"
+         alt="{{ subasta.titulo }}">
+    {% else %}
+    Subasta
+    {% endif %}
+</div>
+
+    <div class="panel">
+      <h2>{{ subasta.titulo }}</h2>
+      <p>{{ subasta.descripcion }}</p>
+      <h3>Puja actual: ${{ subasta.precio_actual }}</h3>
+
+      <p class="timer-box">
+    ⏳ Finaliza en:
+    <span id="timer" data-fecha="{{ subasta.fecha_fin }}"></span>
+</p>
+
+      <form method="POST">
+        <input type="number" step="0.01" name="monto" placeholder="Ingresa tu oferta" required>
+        <button type="submit">Realizar oferta</button>
+      </form>
+
+      <p class="message">{{ mensaje }}</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Historial de ofertas</h2>
+    <table>
+      <tr><th>Usuario</th><th>Monto</th><th>Fecha</th></tr>
+      {% for o in ofertas %}
+        <tr>
+          <td>{{ o.nombre }}</td>
+          <td>${{ o.monto }}</td>
+          <td>{{ o.fecha }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </section>
+</main>
+
+<<script>
+const timer = document.getElementById("timer");
+
+function actualizarTimer() {
+    const fechaFin = new Date(timer.dataset.fecha).getTime();
+    const ahora = new Date().getTime();
+    const diferencia = fechaFin - ahora;
+
+    if (diferencia <= 0) {
+        timer.textContent = "Subasta finalizada";
+
+        const input = document.querySelector("input[name='monto']");
+        const boton = document.querySelector("button[type='submit']");
+
+        if (input) input.disabled = true;
+
+        if (boton) {
+            boton.disabled = true;
+            boton.textContent = "Subasta finalizada";
+        }
+
+        return;
+    }
+
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+    const segundos = Math.floor((diferencia / 1000) % 60);
+
+    timer.textContent = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+}
+
+actualizarTimer();
+setInterval(actualizarTimer, 1000);
+</script>
+
+{% endblock %}

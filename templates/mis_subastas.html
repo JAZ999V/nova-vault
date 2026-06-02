@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="container">
+
+    <section class="catalog-header">
+        <div>
+            <h2>Mis Subastas</h2>
+            <p>Subastas creadas por ti.</p>
+        </div>
+    </section>
+
+    <section class="auction-grid">
+
+        {% for s in subastas %}
+        <article class="auction-card">
+
+            {% if s.imagen %}
+            <img class="auction-img"
+                 src="{{ url_for('static', filename='img/' + s.imagen) }}"
+                 alt="{{ s.titulo }}">
+            {% endif %}
+
+            <h3>{{ s.titulo }}</h3>
+            <p>{{ s.descripcion }}</p>
+            <p>Categoría: {{ s.categoria }}</p>
+            <p class="price">${{ s.precio_actual }}</p>
+            
+            <p class="timer-box">
+    Finaliza en:
+    <span class="timer" data-fecha="{{ s.fecha_fin }}"></span>
+</p>
+
+{% if s.total_ofertas > 0 %}
+    <div class="subasta-bloqueada">
+        🔒 Tiene ofertas
+    </div>
+{% endif %}
+
+<div class="acciones-subasta">
+
+    <a class="btn" href="/subasta/{{ s.id_subasta }}">
+        Ver subasta
+    </a>
+
+    {% if s.total_ofertas == 0 %}
+
+        <a class="btn secondary"
+           href="/editar_subasta/{{ s.id_subasta }}">
+            Editar
+        </a>
+
+        <a class="btn secondary"
+           href="/eliminar_subasta/{{ s.id_subasta }}">
+            Eliminar
+        </a>
+
+    {% endif %}
+
+</div>
+        </article>
+        {% else %}
+            <div class="panel">
+                <h3>No has creado subastas todavía.</h3>
+                <p>Cuando publiques una subasta, aparecerá aquí.</p>
+            </div>
+        {% endfor %}
+
+    </section>
+
+</main>
+<script>
+const timers = document.querySelectorAll(".timer");
+
+timers.forEach(timer => {
+
+    function actualizarTimer() {
+
+        const fechaFin = new Date(timer.dataset.fecha).getTime();
+        const ahora = new Date().getTime();
+        const diferencia = fechaFin - ahora;
+
+        if (diferencia <= 0) {
+            timer.textContent = "Subasta finalizada";
+            return;
+        }
+
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+        const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+        const segundos = Math.floor((diferencia / 1000) % 60);
+
+        timer.textContent =
+            `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+    }
+
+    actualizarTimer();
+    setInterval(actualizarTimer, 1000);
+
+});
+</script>
+{% endblock %}

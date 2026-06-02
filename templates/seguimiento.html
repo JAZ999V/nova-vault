@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="container">
+  <section class="panel">
+    <h2>Seguimiento de Subastas</h2>
+    <p>Subastas que estás siguiendo.</p>
+
+    <table class="tabla-admin">
+      <tr>
+        <th>Subasta</th>
+        <th>Puja actual</th>
+        <th>Cantidad</th>
+        <th>Subtotal</th>
+        <th>Acciones</th>
+      </tr>
+
+      {% for item in items %}
+      <tr>
+        <td>{{ item.titulo }}</td>
+        <td>${{ item.precio_actual }}</td>
+        <td>{{ item.cantidad }}</td>
+        <td>${{ item.subtotal }}</td>
+        <td>
+          <a class="btn" href="/subasta/{{ item.id_subasta }}">
+            Ver puja
+          </a>
+
+          <a class="btn secondary"
+   href="/quitar_seguimiento/{{ item.id_carrito }}">
+    Dejar de seguir
+</a>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="5">No estás siguiendo ninguna subasta.</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <h3>Total estimado: ${{ total }}</h3>
+  </section>
+</main>
+
+{% endblock %}

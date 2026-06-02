@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="container">
+
+    <section class="catalog-header">
+        <div>
+            <h2>Administrar pujas</h2>
+            <p>Subasta ID: {{ id_subasta }}</p>
+        </div>
+    </section>
+
+    <section class="panel">
+        <table class="tabla-admin">
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Correo</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+            </tr>
+
+            {% for o in ofertas %}
+            <tr>
+                <td>{{ o.id_oferta }}</td>
+                <td>{{ o.nombre }}</td>
+                <td>{{ o.correo }}</td>
+                <td>${{ o.monto }}</td>
+                <td>{{ o.fecha }}</td>
+                <td>
+                 <a class="btn secondary"
+   href="/eliminar_oferta/{{ o.id_oferta }}/{{ id_subasta }}">
+    Eliminar puja
+</a>
+
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6">Esta subasta no tiene pujas registradas.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+
+</main>
+
+{% endblock %}
