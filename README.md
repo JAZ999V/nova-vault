@@ -29,6 +29,6 @@ Sistema de subastas virtual desarrollado con Flask y MySQL.
 
 ## Autor
 
-Jazmany Manzano Lezama
-Ivan Cocoletzi Saavedra
+Jazmany Manzano Lezama,
+Ivan Cocoletzi Saavedra,
 Brayan Vasquez Delgado
